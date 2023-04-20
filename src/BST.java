@@ -47,7 +47,6 @@ public class BST {
      * @return true if val is in the tree, false otherwise
      */
     public boolean search(int val) {
-        // TODO: Complete the search function
         return findVal(val, root);
     }
 
@@ -58,12 +57,16 @@ public class BST {
      * @return
      */
     public boolean findVal(int val, BSTNode node) {
+        // Base case: return false if have gotten to the end and no value
         if (node == null) {
             return false;
         }
+        // Return true if the current node contains the value
         else if (node.getVal() == val) {
             return true;
         }
+        // Recursive step:
+        // Look at left if val is smaller, right if val is greater
         else if (node.getVal() > val) {
             return findVal(val, node.getLeft());
         }
@@ -73,46 +76,57 @@ public class BST {
     }
 
     /**
+     * Inorder traversal
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
-        // TODO: Complete inorder traversal
         ArrayList<BSTNode> inorder = new ArrayList<BSTNode>();
-
         helperInorder(inorder, root);
         return inorder;
     }
 
+    /**
+     * Helper method for inorder: left, root, right
+     * @param inorder arraylist adding to
+     * @param node current node in tree
+     */
     public void helperInorder(ArrayList<BSTNode> inorder, BSTNode node) {
+        // Base case: end method once have gone through each node
         if (node == null) {
             return;
         }
-        helperInorder(inorder, node.getLeft());
-        inorder.add(node);
-        helperInorder(inorder, node.getRight());
+        helperInorder(inorder, node.getLeft()); // Recurse towards the left
+        inorder.add(node); // Add current node
+        helperInorder(inorder, node.getRight()); // Recuse towards the right
     }
 
     /**
+     * Preorder traversal
      * @return ArrayList of BSTNodes in preorder
      */
     public ArrayList<BSTNode> getPreorder() {
-        // TODO: Complete preorder traversal
         ArrayList<BSTNode> preorder = new ArrayList<BSTNode>();
-
         helperPreorder(preorder, root);
         return preorder;
     }
 
+    /**
+     * Helper method for inorder: root, left, right
+     * @param preorder arraylist adding to
+     * @param node current node in tree
+     */
     public void helperPreorder(ArrayList<BSTNode> preorder, BSTNode node) {
+        // Base case: end method once have gone through each node
         if (node == null) {
             return;
         }
-        preorder.add(node);
-        helperInorder(preorder, node.getLeft());
-        helperInorder(preorder, node.getRight());
+        preorder.add(node); // Add current node
+        helperInorder(preorder, node.getLeft()); // Recurse towards the left
+        helperInorder(preorder, node.getRight()); // Recuse towards the right
     }
 
     /**
+     * Postorder traversal
      * @return ArrayList of BSTNodes in postorder
      */
     public ArrayList<BSTNode> getPostorder() {
@@ -123,13 +137,19 @@ public class BST {
         return postorder;
     }
 
+    /**
+     * Helper method for inorder: root, left, right
+     * @param postorder arraylist adding to
+     * @param node current node in tree
+     */
     public void helperPostorder(ArrayList<BSTNode> postorder, BSTNode node) {
+        // Base case: end method once have gone through each node
         if (node == null) {
             return;
         }
-        helperInorder(postorder, node.getLeft());
-        helperInorder(postorder, node.getRight());
-        postorder.add(node);
+        helperInorder(postorder, node.getLeft()); // Recurse towards the left
+        helperInorder(postorder, node.getRight()); // Recuse towards the right
+        postorder.add(node); // Add current node
     }
 
     /**
@@ -140,6 +160,43 @@ public class BST {
      */
     public void insert(int val) {
         // TODO: Complete insert
+        helperInsert(val, root);
+    }
+
+    /**
+     * Helper method for insert
+     * @param val value being added
+     * @param node current node looking at
+     */
+    public void helperInsert(int val, BSTNode node) {
+        // Base case: if node is null, set to new node with the value
+        if (node == null) {
+            node = new BSTNode(val);
+            return;
+        }
+        // Is value is less than the current node's value
+        if (node.getVal() > val) {
+            // If no smaller value below current node, add new node to the left
+           if (node.getLeft() == null) {
+               node.setLeft(new BSTNode(val));
+           }
+           // Run again on left node
+           else {
+               helperInsert(val, node.getLeft());
+           }
+
+        }
+        // Is value is greater than the current node's value
+        else {
+            // If no greater value below current node, add new node to the right
+           if (node.getRight() == null) {
+               node.setRight(new BSTNode(val));
+           }
+           // Run again on right node
+           else {
+               helperInsert(val, node.getRight());
+           }
+        }
     }
 
     /**
@@ -165,7 +222,7 @@ public class BST {
 
         System.out.println("\nPreorder traversal of binary tree is");
         ArrayList<BSTNode> sol = tree.getPreorder();
-         printNodes(sol);
+        printNodes(sol);
 
         System.out.println("\nInorder traversal of binary tree is");
         sol = tree.getInorder();
@@ -173,7 +230,7 @@ public class BST {
 
         System.out.println("\nPostorder traversal of binary tree is");
         sol = tree.getPostorder();
-         printNodes(sol);
+        printNodes(sol);
 
         tree.insert(8);
         System.out.println("\nInorder traversal of binary tree is");

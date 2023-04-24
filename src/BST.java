@@ -121,8 +121,8 @@ public class BST {
             return;
         }
         preorder.add(node); // Add current node
-        helperInorder(preorder, node.getLeft()); // Recurse towards the left
-        helperInorder(preorder, node.getRight()); // Recuse towards the right
+        helperPreorder(preorder, node.getLeft()); // Recurse towards the left
+        helperPreorder(preorder, node.getRight()); // Recuse towards the right
     }
 
     /**
@@ -133,12 +133,12 @@ public class BST {
         // TODO: Complete postorder traversal
         ArrayList<BSTNode> postorder = new ArrayList<BSTNode>();
 
-        helperPreorder(postorder, root);
+        helperPostorder(postorder, root);
         return postorder;
     }
 
     /**
-     * Helper method for inorder: root, left, right
+     * Helper method for postorder: left, right, root
      * @param postorder arraylist adding to
      * @param node current node in tree
      */
@@ -147,8 +147,8 @@ public class BST {
         if (node == null) {
             return;
         }
-        helperInorder(postorder, node.getLeft()); // Recurse towards the left
-        helperInorder(postorder, node.getRight()); // Recuse towards the right
+        helperPostorder(postorder, node.getLeft()); // Recurse towards the left
+        helperPostorder(postorder, node.getRight()); // Recuse towards the right
         postorder.add(node); // Add current node
     }
 
